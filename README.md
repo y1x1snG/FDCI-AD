@@ -57,7 +57,7 @@ Each script changes into the repository root and runs `python main.py` with the 
 - `main.py`, `glass.py`, `model.py`, `common.py`, `backbones.py`, `resnet12.py` — the FDCI-AD pipeline and the modified WideResNet-50 backbone.
 - `FDSIA.py`, `MPDC.py`, `EDCT.py` — the three proposed modules (§3.1–3.3).
 - `metrics.py`, `loss.py`, `perlin.py`, `utils.py`, `datasets/` — supporting utilities and dataset loaders (MVTec AD, VisA).
-- `torchvision_vendored/` — **vendored internal modules of PyTorch's `torchvision`** v0.15.1 (BSD 3-Clause, Copyright (c) Soumith Chintala 2016) that the backbone depends on; they are **not** part of FDCI-AD's own contribution. The full license text is reproduced in [`LICENSE`](LICENSE).
+- `torchvision_vendored/` — **vendored internal modules of PyTorch's `torchvision`** v0.15.1 (BSD 3-Clause, Copyright (c) Soumith Chintala 2016) that the backbone depends on; they are **not** part of FDCI-AD's own contribution. The full license text is reproduced in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 - `shell/run-mvtec.sh`, `shell/run-visa.sh` — launch scripts for the two evaluated datasets.
 
 ## Citation
@@ -65,11 +65,11 @@ Each script changes into the repository root and runs `python main.py` with the 
 If you use FDCI-AD, please cite this work and the base method it extends:
 
 ```bibtex
-@article{wang2024fdciad,
+@article{wang2026fdciad,
   title  = {Full-Dimensional Collaborative Interpretable Network for Anomaly Detection},
   author = {Wang, Guogang and Liu, Mingpeng and Zhao, Xin and Chen, Yaqiu},
   journal = {iScience},
-  year   = {2024},
+  year   = {2026},
   note   = {under review}
 }
 ```
@@ -89,4 +89,4 @@ Thanks for the great inspiration from [GLASS](https://arxiv.org/abs/2407.09359) 
 
 ## License
 
-Released under the [MIT License](LICENSE). This repository is a derivative work of GLASS and inherits its MIT license; see `LICENSE` for the combined copyright notices.
+Released under the [MIT License](LICENSE). This repository is a derivative work of GLASS and inherits its MIT license; the full text of every third-party license is reproduced in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).

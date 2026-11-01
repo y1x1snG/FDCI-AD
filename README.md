@@ -2,23 +2,23 @@
 
 **Built upon [GLASS](https://arxiv.org/abs/2407.09359)¹** — a unified anomaly synthesis strategy with gradient ascent for industrial anomaly detection and localization.
 
-_FDCI-AD extends GLASS by introducing three plug-in modules — **FDSIA**, **MPDC**, and **EDCT** — that enrich the global and local anomaly synthesis branches of the GLASS framework, improving detection of weak and structurally complex defects._
+_FDCI-AD extends GLASS with three modules — **FDSIA**, **MPDC**, and **EDCT** — that strengthen the semantic extraction of the global branch, give the local branch access to global context, and make inter-channel competition and cooperation explicit._
 
 ¹ Q. Chen, H. Luo, C. Lv, and Z. Zhang, “A Unified Anomaly Synthesis Strategy with Gradient Ascent for Industrial Anomaly Detection and Localization,” arXiv:2407.09359, 2024.
 
 ![Overall architecture of FDCI-AD](figures/fdci_ad_framework.png)
 
-_Figure: Overall architecture of FDCI-AD. The underlying GLASS framework (Normal / GAS / LAS branches) is extended with the proposed FDSIA, MPDC, and EDCT modules._
+_Figure: Overall architecture of FDCI-AD. The underlying GLASS framework (normal branch, feature-level global anomaly synthesis branch, image-level local anomaly synthesis branch) is extended with the proposed FDSIA, MPDC, and EDCT modules._
 
 ## Introduction
 
 FDCI-AD is a unified framework for **unsupervised industrial anomaly detection and localization**. It is built on top of **GLASS** (Global and Local Anomaly Co-Synthesis Strategy)¹ and contributes three modules:
 
-- **FDSIA** (Full-Dimensional Sequential Interaction Attention) — a sequential interaction attention integrated into the GLASS global branch to capture full-dimensional feature dependencies (§3.1).
-- **MPDC** (Multi-Path Depthwise Convolution) — a multi-path depthwise convolution (e.g., large-kernel ConvNeXt style) that expands the receptive field and enriches the semantic information extraction of the GLASS global branch (§3.2).
-- **EDCT** (Explainable Dynamic Channel Transformation) — a dynamic channel transformation that enhances feature representation and interpretability (§3.3).
+- **FDSIA** (Full-Dimensional Sequential Interaction Attention) — preserves information across the channel, height, and width dimensions and strengthens global dependencies over channel and spatial dimensions, improving the semantic extraction of the global branch while injecting global contextual information into the local branch (§3.1).
+- **MPDC** (Multi-Path Depthwise Convolution) — splits the channels into four parallel branches — a 3×3 square depthwise kernel, two orthogonal strip kernels (1×11 and 11×1) for horizontal and vertical long-range dependencies, and an identity path — and concatenates their outputs, decomposing a large kernel at almost no additional parameters (§3.2, Eq. 16). At `C = 1024` this gives the branch split 128 / 128 / 128 / 640 used in the experiments.
+- **EDCT** (Explainable Dynamic Channel Transformation) — jointly optimizes interpretable control parameters with convolutional weights to explicitly model inter-channel competition and collaboration, improving both detection accuracy and model interpretability (§3.3).
 
-These modules are integrated into the GLASS global and local anomaly synthesis branches and trained end-to-end together with the original GLASS objective.
+FDSIA and MPDC are inserted into the shared WideResNet-50 backbone between `layer3` and `layer4` (1024-d features, `resnet12.py`), and EDCT operates on the 512-d features in the preprocessing adapter (`common.py`); all three modules are trained end-to-end together with the original GLASS objective.
 
 ## Environment
 
@@ -28,11 +28,11 @@ conda activate fdci_ad
 pip install -r requirements.txt
 ```
 
-The experiments in the paper were conducted on an NVIDIA Titan V GPU; similar hardware and package versions are recommended.
+The experiments in the paper were conducted on an Intel Xeon E5-2686 v4 CPU and an NVIDIA Titan V GPU, using PyTorch 2.0.0; similar hardware and package versions are recommended.
 
 ## Data Preparation
 
-The released code is evaluated on **MVTec AD** and **VisA**. **DTD** is used as an auxiliary texture dataset for data augmentation (same role as in GLASS).
+The released code is evaluated on **MVTec AD** and **VisA**. **DTD** serves as the anomaly source for synthesizing texture anomalies, the same role it plays in GLASS.
 
 - MVTec AD: https://www.mvtec.com/company/research/datasets/mvtec-ad/
 - VisA: https://github.com/amazon-science/spot-diff/

@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23873464.svg)](https://doi.org/10.5281/zenodo.23873464)
+
+
 # FDCI-AD: Full-Dimensional Collaborative Interpretable Network for Anomaly Detection
 
 **Built upon [GLASS](https://arxiv.org/abs/2407.09359)¹** — a unified anomaly synthesis strategy with gradient ascent for industrial anomaly detection and localization.
